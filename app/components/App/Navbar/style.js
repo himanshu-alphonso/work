@@ -11,6 +11,12 @@ export const NavbarStyles = styled.div`
   }
 
   .navbar-inverse {
+    background-color: #C00;
     border: none;
+
+    .navbar-brand, .navbar-nav > li > a {
+      color: #f5f5f5;
+    }
+
   }
 `;

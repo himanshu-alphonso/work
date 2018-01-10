@@ -26,7 +26,7 @@ class NavBar extends React.Component {
     if (loggedIn) {
       return (
         <Nav pullRight>
-          <NavItem>{ 'this.props.session.currentUser.email' }</NavItem>
+          <NavItem>{ /* this.props.session.currentUser.email */ 'name' }</NavItem>
           <NavItem eventKey={1} href="#" onClick={ ::this.logOut() }>Sign Out</NavItem>
         </Nav>
       );
