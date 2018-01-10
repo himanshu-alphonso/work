@@ -1,4 +1,4 @@
-# Pushing New Code to MyDb1
+# Pushing New Code to mydb1
 
 ## January 10, 2018
 
@@ -16,7 +16,7 @@
 ### Directions on how to push code to `mydb1.alphonso.tv:4444` and restart the process - Running the integration instance of internal dashboards
 
 1. `ssh alpha@mydb1.alphonso.tv`
-2. `cd /home/alpha/internal-dashboards`
+2. `cd /mnt/alpha/production/srcs/master-latest-git`
 3. `a_setup_prodn`
 4. `git branch` to checkout if branch is currently on `internal-dashboards/integration`
 5. `git pull` to pull the latest changes to the integration branch

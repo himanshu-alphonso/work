@@ -17,6 +17,5 @@ export const NavbarStyles = styled.div`
     .navbar-brand, .navbar-nav > li > a {
       color: #f5f5f5;
     }
-
   }
 `;
