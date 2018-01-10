@@ -1,0 +1,2 @@
+client ID: 977981820563-s4hlgjuopjsucsp91p0kctd40tdkukr4.apps.googleusercontent.com
+client secret: ZrC7qfdydWHeUTbj2GgKDSSt
