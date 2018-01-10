@@ -17,6 +17,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
   render() {
     return (
       <h1>
+        <h2>Testing</h2>
         <FormattedMessage {...messages.header} />
       </h1>
     );
