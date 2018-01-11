@@ -1,33 +1,40 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-
 
 import Button from 'components/Reusable/SimpleButton';
 
-// import { logoutUser } from 'containers/LoginPage/actions';
+import { logoutUser } from 'containers/App/actions';
 import { NavbarStyles } from './style';
 
 
 class NavBar extends React.Component {
   logOut() {
-    // return () => this.props.logoutUser();
-  }
-
-  goToTest() {
-    // return () => this.props.router.push('/test');
+    return () => this.props.logoutUser();
   }
 
   navigateTo(location) {
-    // return () => this.props.router.push(location);
+    return (e) => {
+      e.stopPropagation();
+      this.props.history.push(location);
+    };
+  }
+
+  renderUserImage() {
+    return (
+      <div>
+
+      </div>
+    );
   }
 
   renderNavRight(loggedIn) {
     if (loggedIn) {
       return (
         <Nav pullRight>
-          <NavItem>{ /* this.props.session.currentUser.email */ 'name' }</NavItem>
+          <NavItem>{ this.props.name }</NavItem>
           <NavItem eventKey={1} href="#" onClick={ ::this.logOut() }>Sign Out</NavItem>
         </Nav>
       );
@@ -35,20 +42,17 @@ class NavBar extends React.Component {
     else {
       return (
         <Nav pullRight>
-          <NavItem eventKey={2} href="/login" onClick={ ::this.navigateTo('/login') }>Sign In</NavItem>
           <NavItem eventKey={2} href="#">
-
+            { this.renderUserImage() }
           </NavItem>
-          <NavItem eventKey={2} href="/register" onClick={ ::this.navigateTo('/register') }>Register</NavItem>
+          <NavItem eventKey={2} href="#" onClick={ ::this.navigateTo('/login') }>Sign In</NavItem>
+          <NavItem eventKey={2} href="#" onClick={ ::this.navigateTo('/register') }>Register</NavItem>
         </Nav>
       );
     }
   }
 
   render() {
-    // const loggedIn = this.props.loggedIn;
-    const loggedIn = false;
-
     return (
       <NavbarStyles>
         <Navbar inverse collapseOnSelect>
@@ -60,11 +64,11 @@ class NavBar extends React.Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <NavItem eventKey={1} href="/test" onClick={ ::this.goToTest() }>Test</NavItem>
+              <NavItem eventKey={1} href="#" onClick={ ::this.navigateTo('/test') }>Test</NavItem>
               <NavItem eventKey={2} href="#">Link</NavItem>
             </Nav>
 
-            { this.renderNavRight(loggedIn) }
+            { this.renderNavRight(this.props.loggedIn) }
 
           </Navbar.Collapse>
         </Navbar>
@@ -74,20 +78,20 @@ class NavBar extends React.Component {
   }
 }
 
-// NavBar.propTypes = {
-//   session: PropTypes.object,
-//   router: PropTypes.object,
-//   logoutUser: PropTypes.func,
-//   loggedIn: PropTypes.bool,
-// };
+NavBar.propTypes = {
+  history: PropTypes.object,
+  logoutUser: PropTypes.func,
+  loggedIn: PropTypes.bool,
+  name: PropTypes.string,
+};
 
 const mapStateToProps = (state, ownProps) => ({
-  // session: state.session,
-  // loggedIn: state.session.loggedIn,
+  name: state.getIn(['session', 'user', 'givenName']),
+  loggedIn: state.getIn(['session', 'loggedIn']),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  // logoutUser: () => dispatch(logoutUser()),
+  logoutUser: () => dispatch(logoutUser()),
 });
 
 export default connect(

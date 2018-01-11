@@ -1,38 +1,41 @@
-/**
- *
- * App.js
- *
- * This component is the skeleton around the actual pages, and should only
- * contain code that should be seen on all pages. (e.g. navigation bar)
- *
- * NOTE: while this component should technically be a stateless functional
- * component (SFC), hot reloading does not currently support SFCs. If hot
- * reloading is not a necessity for you then you can refactor it and remove
- * the linting exception.
- */
-
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import { compose } from 'redux';
+
+import injectSaga from 'utils/injectSaga';
+import { RESTART_ON_REMOUNT } from 'utils/constants';
 
 import HomePage from 'containers/HomePage/Loadable';
-import LoginPage from 'containers/LoginPage/';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import LoginPage from 'containers/LoginPage';
 
 import Navbar from 'components/App/Navbar';
-import { ProtectedRoute } from 'components/Reusable/Authentication';
+import { ProtectedRoute, AuthRoute } from 'components/Reusable/Authentication';
+
+import saga from './sagas';
 
 
-function App() {
-  return (
-    <div>
-      <Navbar />
-      <Switch>
-        <Route exact path="/login" component={ LoginPage } />
-        <Route component={ NotFoundPage } />
-        <ProtectedRoute path="/" component={ HomePage } />
-      </Switch>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>
+        <Navbar />
+        <Switch>
+          <ProtectedRoute exact path="/" component={ HomePage } />
+          <AuthRoute exact path="/login" component={ LoginPage } />
+          <Route component={ NotFoundPage } />
+        </Switch>
+      </div>
+    );
+  }
 }
 
-export default App;
+const withSaga = injectSaga({ key: 'app', saga, mode: RESTART_ON_REMOUNT });
+
+export default compose(
+  withSaga,
+)(App);
