@@ -1,14 +1,22 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 
 class HomePage extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
+      <Grid>
+        <Row>
+          <Col>
+            <h1>Home Page Placeholder</h1>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }

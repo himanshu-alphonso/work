@@ -5,13 +5,13 @@ Qian Li
 Rahul Doshi  
 Christopher Shay  
 Jay Puntham-Baker   
-Ravi Sarma
+Ravi Sarma  
 Lampros K.
 
 
 ## Deploying to Production
 
-- Merge branch to be deployed to `master`
+- Merge branch to be deployed to `internal-dashboards/integration`
 - Set the environment to production with `a_setup_prodn`
 - Run `npm run build`
 - Restart the server with the new code
