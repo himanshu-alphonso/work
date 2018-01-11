@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
+
 import Button from 'components/Reusable/SimpleButton';
 
 // import { logoutUser } from 'containers/LoginPage/actions';
@@ -35,6 +36,9 @@ class NavBar extends React.Component {
       return (
         <Nav pullRight>
           <NavItem eventKey={2} href="/login" onClick={ ::this.navigateTo('/login') }>Sign In</NavItem>
+          <NavItem eventKey={2} href="#">
+
+          </NavItem>
           <NavItem eventKey={2} href="/register" onClick={ ::this.navigateTo('/register') }>Register</NavItem>
         </Nav>
       );
@@ -43,7 +47,7 @@ class NavBar extends React.Component {
 
   render() {
     // const loggedIn = this.props.loggedIn;
-    const loggedIn = true;
+    const loggedIn = false;
 
     return (
       <NavbarStyles>

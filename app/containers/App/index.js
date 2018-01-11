@@ -15,19 +15,24 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
+import LoginPage from 'containers/LoginPage/';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import Navbar from 'components/App/Navbar';
+import { ProtectedRoute } from 'components/Reusable/Authentication';
 
 
-export default function App() {
+function App() {
   return (
     <div>
       <Navbar />
       <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route component={NotFoundPage} />
+        <Route exact path="/login" component={ LoginPage } />
+        <Route component={ NotFoundPage } />
+        <ProtectedRoute path="/" component={ HomePage } />
       </Switch>
     </div>
   );
 }
+
+export default App;
