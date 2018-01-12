@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
+import Helmet from 'react-helmet';
 import GoogleLogin from 'react-google-login';
 import { Grid, Row, Col } from 'react-bootstrap';
+
+import { GOOGLE_CLIENT_ID } from 'containers/App/constants';
 
 import * as actions from 'containers/App/actions';
 import LoginPageStyles from './style';
@@ -26,12 +28,13 @@ class LoginPage extends React.Component {
   render() {
     return (
       <LoginPageStyles>
+        <Helmet title="Login | Alphonso Internal Dashboards" />
         <Grid>
           <Row>
             <Col xs={12} sm={12} md={12} lg={12}>
               <div className="login-button-container">
                 <GoogleLogin
-                  clientId="977981820563-s4hlgjuopjsucsp91p0kctd40tdkukr4.apps.googleusercontent.com"
+                  clientId={ GOOGLE_CLIENT_ID }
                   buttonText="Login"
                   onSuccess={ ::this.onSuccess() }
                   onFailure={ ::this.onFailure() }

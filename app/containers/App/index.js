@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
+import Helmet from 'react-helmet';
 
 import injectSaga from 'utils/injectSaga';
 import { RESTART_ON_REMOUNT } from 'utils/constants';
@@ -23,6 +24,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+
         <Navbar />
         <Switch>
           <ProtectedRoute exact path="/" component={ HomePage } />

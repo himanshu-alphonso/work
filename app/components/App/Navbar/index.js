@@ -24,8 +24,8 @@ class NavBar extends React.Component {
 
   renderUserImage() {
     return (
-      <div>
-
+      <div className="navbar-user-img-wrapper">
+        <img src={ this.props.userImg }></img>
       </div>
     );
   }
@@ -34,19 +34,18 @@ class NavBar extends React.Component {
     if (loggedIn) {
       return (
         <Nav pullRight>
-          <NavItem>{ this.props.name }</NavItem>
-          <NavItem eventKey={1} href="#" onClick={ ::this.logOut() }>Sign Out</NavItem>
+          <NavItem className="navbar-user-img-item" eventKey={2} href="#">
+            { this.renderUserImage() }
+          </NavItem>
+          <NavItem className="navbar-user-name-item"> { this.props.name }</NavItem>
+          <NavItem className="navbar-sign-out-item" eventKey={1} href="#" onClick={ ::this.logOut() }>Sign Out</NavItem>
         </Nav>
       );
     }
     else {
       return (
         <Nav pullRight>
-          <NavItem eventKey={2} href="#">
-            { this.renderUserImage() }
-          </NavItem>
           <NavItem eventKey={2} href="#" onClick={ ::this.navigateTo('/login') }>Sign In</NavItem>
-          <NavItem eventKey={2} href="#" onClick={ ::this.navigateTo('/register') }>Register</NavItem>
         </Nav>
       );
     }
@@ -64,8 +63,8 @@ class NavBar extends React.Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <NavItem eventKey={1} href="#" onClick={ ::this.navigateTo('/test') }>Test</NavItem>
-              <NavItem eventKey={2} href="#">Link</NavItem>
+              <NavItem eventKey={1} href="#" onClick={ ::this.navigateTo('/test') }>Link 1</NavItem>
+              <NavItem eventKey={2} href="#">Link 2</NavItem>
             </Nav>
 
             { this.renderNavRight(this.props.loggedIn) }
@@ -83,11 +82,13 @@ NavBar.propTypes = {
   logoutUser: PropTypes.func,
   loggedIn: PropTypes.bool,
   name: PropTypes.string,
+  userImg: PropTypes.string,
 };
 
 const mapStateToProps = (state, ownProps) => ({
   name: state.getIn(['session', 'user', 'givenName']),
   loggedIn: state.getIn(['session', 'loggedIn']),
+  userImg: state.getIn(['session', 'user', 'imageUrl'])
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

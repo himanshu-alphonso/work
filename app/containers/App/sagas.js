@@ -7,6 +7,8 @@ import request from 'utils/request';
 import { browserHistory } from 'react-router';
 import { push } from 'react-router-redux';
 
+import { GOOGLE_CLIENT_ID } from 'containers/App/constants';
+
 import * as actions from './actions';
 
 
@@ -36,6 +38,11 @@ export function* logoutUser(action) {
     // Remove token and user data from localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    // Log user out on Google servers if gapi is initialized
+    if (gapi.auth2) {
+      const auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut();
+    }
     // Alter session state to denote logged out state
     yield put(actions.logoutUserSuccess());
     // Redirect browser to login page following logout
