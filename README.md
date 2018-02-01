@@ -5,8 +5,12 @@ makes use of react, redux, redux-sagas, styled-components, and express.
 
 Additionally, this repo contains boilerplate versions that contain implementations for the following that are viewable when checking out the specified branch:  
 <<<<<<< HEAD
+<<<<<<< HEAD
 - LinkedIn OAuth (templates/linkedinauth)  
 =======
 - LinkedIn OAuth (templates/linkedin)  
 >>>>>>> Add new README to master
+=======
+- LinkedIn OAuth (templates/linkedinauth)  
+>>>>>>> Further update README
 - Google OAuth (templates/googleauth)
