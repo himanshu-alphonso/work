@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import NavbarSmall from 'components/App/Navbar/NavbarSmall';
 
@@ -16,7 +17,6 @@ class Navbar extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div>
         { this.renderNavbar() }
@@ -26,7 +26,6 @@ class Navbar extends React.Component {
 }
 
 Navbar.propTypes = {
-  // router: PropTypes.object.isRequired,
   isLocalNetworkPage: PropTypes.bool
 };
 

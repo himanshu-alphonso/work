@@ -1,9 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Body } from 'components/typography/Body';
-// import { openPopup } from 'components/Popup/actions';
-import { POPUP_TRACKING_PROTECTION } from 'containers/App/constants';
-import { loggingIn, loggingOut, alreadyLoggedIn } from './actions';
+import * as actions from './actions';
 import LinkedInOAuthStyle from './style';
 
 
@@ -19,22 +18,18 @@ class LinkedInOAuth extends React.Component {
     if (typeof IN === 'undefined') {
       this.untrackingOn = true;
     } else {
-      IN.Event.onOnce(IN, 'systemReady', this.props.alreadyLoggedIn);
+      IN.Event.onOnce(IN, 'systemReady', this.props.confirmAuthorization);
     }
   }
 
-  popupAlert() {
-    // this.props.openPopup(POPUP_TRACKING_PROTECTION);
-  }
-
   customLinkedInLogin() {
-    if (this.untrackingOn) alert('alert');
-    this.props.loggingIn();
+    if (this.untrackingOn) alert('alert'); // eslint-disable-line
+    this.props.loginUser();
   }
 
   logout() {
-    if (this.untrackingOn) alert('alert');
-    this.props.loggingOut();
+    if (this.untrackingOn) alert('alert'); // eslint-disable-line
+    this.props.logoutUser();
   }
 
   loggedInRender() {
@@ -70,9 +65,9 @@ LinkedInOAuth.propTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
   loggedIn: PropTypes.bool,
-  loggingIn: PropTypes.func.isRequired,
-  loggingOut: PropTypes.func.isRequired,
-  alreadyLoggedIn: PropTypes.func.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  confirmAuthorization: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -80,13 +75,13 @@ const mapStateToProps = (state, ownProps) => ({
   lastName: state.getIn(['session', 'lastName']),
   email: state.getIn(['session', 'email']),
   loggedIn: state.getIn(['session', 'loggedIn']),
+  token: state.getIn(['session', 'token']),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  loggingIn: () => dispatch(loggingIn()),
-  loggingOut: () => dispatch(loggingOut()),
-  alreadyLoggedIn: () => dispatch(alreadyLoggedIn()),
-  // openPopup: (popupType, popupInfo) => dispatch(openPopup(popupType, popupInfo))
+  loginUser: () => dispatch(actions.loginUser()),
+  logoutUser: () => dispatch(actions.logoutUser()),
+  confirmAuthorization: () => dispatch(actions.confirmAuthorization()),
 });
 
 export default connect(

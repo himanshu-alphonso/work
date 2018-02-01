@@ -8,7 +8,6 @@ import { RESTART_ON_REMOUNT } from 'utils/constants';
 
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import LoginPage from 'containers/LoginPage';
 
 import Navbar from 'components/App/Navbar';
 

@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Grid, Row, Col } from 'react-bootstrap';
-import { withRouter, Link } from 'react-router';
-
+import { withRouter } from 'react-router-dom';
 
 import { Body } from 'components/typography/Body';
 import { Description } from 'components/typography/Description';
@@ -11,11 +11,6 @@ import { NavbarTitle, NavbarContainerSmall } from '../style';
 
 
 class NavbarSmall extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-
   render() {
     return (
       <NavbarContainerSmall>
@@ -48,14 +43,6 @@ class NavbarSmall extends React.Component {
   }
 }
 
-NavbarSmall.propTypes = {
-  // params: PropTypes.object,
-  // breadcrumbs: PropTypes.any,
-  // sidebar: PropTypes.any,
-  // navigateToBrand: PropTypes.func,
-  // isLocalNetworkPage: PropTypes.bool,
-  // noSearchBar: PropTypes.bool,
-  // isSuperBowlPage: PropTypes.bool
-};
+NavbarSmall.propTypes = { };
 
 export default withRouter(NavbarSmall);

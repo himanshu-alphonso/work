@@ -3,26 +3,26 @@ import * as actions from '../actions';
 describe('LinkedInOAuth actions', () => {
   it('should create an action to log in', () => {
     const expectedAction = {
-      type: actions.LOG_IN
+      type: actions.LOGIN_USER
     };
 
-    expect(actions.loggingIn()).toEqual(expectedAction);
+    expect(actions.loginUser()).toEqual(expectedAction);
   });
 
   it('should create an action to log out', () => {
     const expectedAction = {
-      type: actions.LOG_OUT
+      type: actions.LOGOUT_USER
     };
 
-    expect(actions.loggingOut()).toEqual(expectedAction);
+    expect(actions.logoutUser()).toEqual(expectedAction);
   });
 
   it('should create an action to pass already logged in information', () => {
     const expectedAction = {
-      type: actions.ALREADY_LOGGED_IN
+      type: actions.CONFIRM_AUTHORIZATION
     };
 
-    expect(actions.alreadyLoggedIn()).toEqual(expectedAction);
+    expect(actions.confirmAuthorization()).toEqual(expectedAction);
   });
 
   it('should create an action to authorize linkedIn', () => {
@@ -33,18 +33,18 @@ describe('LinkedInOAuth actions', () => {
     };
 
     const expectedAction = {
-      type: actions.LOGGED_IN,
+      type: actions.LOGIN_USER_SUCCESS,
       data
     };
 
-    expect(actions.linkedInAuthorize(data)).toEqual(expectedAction);
+    expect(actions.receiveUser(data)).toEqual(expectedAction);
   });
 
   it('should create an action to pass already logged out information', () => {
     const expectedAction = {
-      type: actions.LOGGED_OUT
+      type: actions.LOGOUT_USER_SUCCESS
     };
 
-    expect(actions.linkedInLoggedOut()).toEqual(expectedAction);
+    expect(actions.logoutUserSuccess()).toEqual(expectedAction);
   });
 });

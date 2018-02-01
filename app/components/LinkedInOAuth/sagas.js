@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { LOG_IN, LOG_OUT, ALREADY_LOGGED_IN, LOGGED_IN, LOGGED_OUT, linkedInAuthorize, linkedInLoggedOut } from 'components/LinkedInOAuth/actions';
+import * as actions from 'components/LinkedInOAuth/actions';
 import moment from 'moment';
 import request from 'utils/request';
 
@@ -8,121 +8,83 @@ import request from 'utils/request';
 function connect() {
   return new Promise((resolve, reject) => {
     const result = IN.User && IN.User.authorize(() => {
-      IN.API && IN.API.Profile('me').fields('first-name', 'last-name', 'email-address').result(((data) => {
+      IN.API && IN.API.Profile('me').fields('id', 'first-name', 'last-name', 'email-address', 'headline', 'pictureUrl').result(((data) => {
         const tomorrow = moment().add(1, 'day').utc();
-        document.cookie = `insights_login=${IN.ENV.auth.member_id}; expires=${tomorrow}; path=/`;
         resolve(data.values[0]);
       }));
     });
   });
 }
 
-
 function disconnect() {
   IN.User && IN.User.setLoggedOut();
-  document.cookie = 'insights_login=; path=/;';
-}
-
-
-function findInsightsCookie() {
-  const check = 'insights_login=';
-  const cookie = document.cookie;
-  const start = cookie.indexOf('insights_login=');
-  const cutCookie = cookie.slice(start + check.length);
-  const value = cutCookie.slice(0, cutCookie.indexOf(';'));
-  return value;
 }
 // -- End Non Saga Function -- //
 
 
 // -- Sagas -- //
+// -- Login User -- //
 function* loginUser() {
   try {
-    const snapshot = yield call(connect);
-    if (snapshot.emailAddress && snapshot.emailAddress.length > 0) {
-      const requestBody = JSON.stringify({
-        email: snapshot.emailAddress,
-        firstName: snapshot.firstName,
-        lastName: snapshot.lastName,
-      });
-
-      yield call(request, '/session/login', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: requestBody,
-      });
-
+    const data = yield call(connect);
+    if (data.emailAddress && data.emailAddress.length > 0) {
       // Upon logging in, add user data to localStorage for future reference
-      localStorage.setItem('emailAddress', snapshot.emailAddress);
-      localStorage.setItem('firstName', snapshot.firstName);
-      localStorage.setItem('lastName', snapshot.lastName);
-      localStorage.setItem('oauth_token', IN.ENV.auth.oauth_token);
+      localStorage.setItem('emailAddress', data.emailAddress);
+      localStorage.setItem('firstName', data.firstName);
+      localStorage.setItem('lastName', data.lastName);
+      localStorage.setItem('token', IN.ENV.auth);
 
-      yield put(linkedInAuthorize(snapshot));
+      data.token = IN.ENV.auth;
+      yield put(actions.receiveUser(data));
     }
-  } catch (err) {
-    console.log("Login Error") // eslint-disable-line
+  } catch (error) {
+    yield put(actions.receiveUserError(error));
   }
 }
 export function* watchLogIn() {
-  yield takeLatest(LOG_IN, loginUser);
+  yield takeLatest(actions.LOGIN_USER, loginUser);
 }
+// -- End Login User -- //
 
 
+// -- Logout User - //
 function* logoutUser() {
   try {
     yield call(disconnect);
-
-    const requestBody = JSON.stringify({
-      email: localStorage.emailAddress,
-      firstName: localStorage.firstName,
-      lastName: localStorage.lastName,
-    });
-
-    yield call(request, '/session/logout', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: requestBody,
-    });
-
     // Remove user data stored in localStorage
     localStorage.removeItem('emailAddress');
     localStorage.removeItem('firstName');
     localStorage.removeItem('lastName');
-    localStorage.removeItem('oauth_token');
+    localStorage.removeItem('token');
 
-    yield put(linkedInLoggedOut());
-  } catch (err) {
-    console.log("Logout Error") // eslint-disable-line
+    yield put(actions.logoutUserSuccess());
+  } catch (error) {
+    yield put(actions.logoutUserError(error));
   }
 }
 export function* watchLogOut() {
-  yield takeLatest(LOG_OUT, logoutUser);
+  yield takeLatest(actions.LOGOUT_USER, logoutUser);
 }
+// -- End Logout User -- //
 
 
+// -- Check Authorization -- //
 function* checkingAuthorization() {
   const authorized = yield call(!!IN.User && IN.User.isAuthorized);
-  const insightsCookie = IN.ENV.auth && IN.ENV.auth.member_id === findInsightsCookie();
-  if (authorized && insightsCookie) {
-    const snapshot = yield call(connect);
-    if (snapshot.emailAddress && snapshot.emailAddress.length > 0) {
+  if (authorized) {
+    const data = yield call(connect);
+    if (data.emailAddress && data.emailAddress.length > 0) {
       // Add user data to localStorage if not already present
-      localStorage.setItem('emailAddress', snapshot.emailAddress);
-      localStorage.setItem('firstName', snapshot.firstName);
-      localStorage.setItem('lastName', snapshot.lastName);
-      localStorage.setItem('oauth_token', IN.ENV.auth.oauth_token);
-      yield put(linkedInAuthorize(snapshot));
+      localStorage.setItem('emailAddress', data.emailAddress);
+      localStorage.setItem('firstName', data.firstName);
+      localStorage.setItem('lastName', data.lastName);
+      localStorage.setItem('token', IN.ENV.auth);
+      yield put(actions.receiveUser(data));
     }
   }
 }
 export function* checkIfLoggedIn() {
-  yield takeLatest(ALREADY_LOGGED_IN, checkingAuthorization);
+  yield takeLatest(actions.CONFIRM_AUTHORIZATION, checkingAuthorization);
 }
+// -- End Check Authorization -- //
 // -- End Sagas -- //

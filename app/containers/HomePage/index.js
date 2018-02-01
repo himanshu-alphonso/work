@@ -13,7 +13,7 @@ class HomePage extends React.Component {
   render() {
     return (
       <HomePageStyles>
-        <Helmet title="Home | Alphonso Internal Dashboards" />
+        <Helmet title="Home | Alphonso Boilerplate" />
         <Grid>
           <Row>
             <Col>
