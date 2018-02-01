@@ -1,101 +1,33 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { PropTypes } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-
-import Button from 'components/Reusable/SimpleButton';
-
-import { logoutUser } from 'containers/App/actions';
-import { NavbarStyles } from './style';
+import NavbarSmall from 'components/App/Navbar/NavbarSmall';
 
 
-class NavBar extends React.Component {
-  logOut() {
-    return () => this.props.logoutUser();
-  }
-
-  navigateTo(location) {
-    return (e) => {
-      e.stopPropagation();
-      this.props.history.push(location);
-    };
-  }
-
-  renderUserImage() {
+class Navbar extends React.Component {
+  renderNavbar() {
     return (
-      <div className="navbar-user-img-wrapper">
-        <img src={ this.props.userImg }></img>
-      </div>
+      <NavbarSmall
+        breadcrumbs
+        sidebar
+        navigateToBrand={ () => { } }
+        isLocalNetworkPage={this.props.isLocalNetworkPage}
+      />
     );
   }
 
-  renderNavRight(loggedIn) {
-    if (loggedIn) {
-      return (
-        <Nav pullRight>
-          <NavItem className="navbar-user-img-item" eventKey={2} href="#">
-            { this.renderUserImage() }
-          </NavItem>
-          <NavItem className="navbar-user-name-item"> { this.props.name }</NavItem>
-          <NavItem className="navbar-sign-out-item" eventKey={1} href="#" onClick={ ::this.logOut() }>Sign Out</NavItem>
-        </Nav>
-      );
-    }
-    else {
-      return (
-        <Nav pullRight>
-          <NavItem eventKey={2} href="#" onClick={ ::this.navigateTo('/login') }>Sign In</NavItem>
-        </Nav>
-      );
-    }
-  }
-
   render() {
+    console.log(this.props);
     return (
-      <NavbarStyles>
-        <Navbar inverse collapseOnSelect>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <div className="nav-header-logo" onClick={ ::this.navigateTo('/') }>Alphonso Internal Dashboards</div>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav>
-              <NavItem eventKey={1} href="#" onClick={ ::this.navigateTo('/test') }>Link 1</NavItem>
-              <NavItem eventKey={2} href="#">Link 2</NavItem>
-            </Nav>
-
-            { this.renderNavRight(this.props.loggedIn) }
-
-          </Navbar.Collapse>
-        </Navbar>
-
-      </NavbarStyles>
+      <div>
+        { this.renderNavbar() }
+      </div>
     );
   }
 }
 
-NavBar.propTypes = {
-  history: PropTypes.object,
-  logoutUser: PropTypes.func,
-  loggedIn: PropTypes.bool,
-  name: PropTypes.string,
-  userImg: PropTypes.string,
+Navbar.propTypes = {
+  // router: PropTypes.object.isRequired,
+  isLocalNetworkPage: PropTypes.bool
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  name: state.getIn(['session', 'user', 'givenName']),
-  loggedIn: state.getIn(['session', 'loggedIn']),
-  userImg: state.getIn(['session', 'user', 'imageUrl'])
-});
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  logoutUser: () => dispatch(logoutUser()),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(NavBar));
+export default withRouter(Navbar);

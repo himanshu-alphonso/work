@@ -6,61 +6,14 @@ import { takeLatest, all, call, put, select } from 'redux-saga/effects';
 import request from 'utils/request';
 import { browserHistory } from 'react-router';
 import { push } from 'react-router-redux';
-
-import { GOOGLE_CLIENT_ID } from 'containers/App/constants';
-
-import * as actions from './actions';
-
-
-// -- Login User -- //
-function* loginUser(action) {
-  try {
-    // Store user data in browser's localStorage
-    localStorage.setItem('token', JSON.stringify(action.data.tokenObj));
-    localStorage.setItem('user', JSON.stringify(action.data.profileObj));
-    // Place user information into the session slice of state
-    yield put(actions.receiveUser(action.data));
-    // Redirect browser to a new page following login
-    yield put(push('/'));
-  } catch (error) {
-    yield put(actions.receiveUserError(error));
-  }
-}
-function* watchLoginUser() {
-  yield takeLatest(actions.LOGIN_USER, loginUser);
-}
-// -- End Login User -- //
-
-
-// -- Logout User -- //
-export function* logoutUser(action) {
-  try {
-    // Remove token and user data from localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    // Log user out on Google servers if gapi is initialized
-    if (gapi.auth2) {
-      const auth2 = gapi.auth2.getAuthInstance();
-      auth2.signOut();
-    }
-    // Alter session state to denote logged out state
-    yield put(actions.logoutUserSuccess());
-    // Redirect browser to login page following logout
-    yield put(push('/login'));
-  } catch (error) {
-    yield put(actions.logoutUserError());
-  }
-}
-export function* watchLogoutUser() {
-  yield takeLatest(actions.LOGOUT_USER, logoutUser);
-}
-// -- End Logout User -- //
+import { watchLogIn, watchLogOut, checkIfLoggedIn } from 'components/LinkedInOAuth/sagas';
 
 
 function* rootSaga() {
   yield all([
-    watchLoginUser(),
-    watchLogoutUser(),
+    watchLogIn(),
+    watchLogOut(),
+    checkIfLoggedIn(),
   ]);
 }
 

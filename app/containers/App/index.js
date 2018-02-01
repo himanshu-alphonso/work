@@ -11,7 +11,6 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import LoginPage from 'containers/LoginPage';
 
 import Navbar from 'components/App/Navbar';
-import { ProtectedRoute, AuthRoute } from 'components/Reusable/Authentication';
 
 import saga from './sagas';
 
@@ -24,11 +23,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
-
         <Navbar />
         <Switch>
-          <ProtectedRoute exact path="/" component={ HomePage } />
-          <AuthRoute exact path="/login" component={ LoginPage } />
+          <Route exact path="/" component={ HomePage } />
           <Route component={ NotFoundPage } />
         </Switch>
       </div>
