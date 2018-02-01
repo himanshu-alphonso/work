@@ -11,7 +11,7 @@ This repo contains boilerplate versions that contain implementations for the fol
 
 #### Instructions  
 1. Determine which template you need. Choices are `templates/linkedinauth`, `templates/googleauth`, `templates/noauth`.  
-2. Clone the repo and specify the branch with `git clone -branch <branch_name> https://github.com/AlphonsoCode/web-app-boilerplate`  
+2. Clone the repo and specify the branch with ` git clone https://github.com/AlphonsoCode/web-app-boilerplate.git --branch <branch-name> --single-branch`  
 3. Install dependencies with `yarn`  
 4. Run the application with `npm run start`  
 5. Build away!  
