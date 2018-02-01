@@ -9,8 +9,6 @@ import { RESTART_ON_REMOUNT } from 'utils/constants';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
-import Navbar from 'components/App/Navbar';
-
 import saga from './sagas';
 
 
@@ -22,7 +20,6 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Navbar />
         <Switch>
           <Route exact path="/" component={ HomePage } />
           <Route component={ NotFoundPage } />

@@ -17,7 +17,7 @@ class HomePage extends React.Component {
         <Grid>
           <Row>
             <Col>
-              <h1>Home Page Placeholder</h1>
+              <h1>Alphonso Boilerplate - Home Page Placeholder</h1>
             </Col>
           </Row>
         </Grid>

@@ -7,7 +7,6 @@ import { combineReducers } from 'redux-immutable';
 // *** ONLY generalized reducers used across the application should be imported here. ***
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import routeReducer from 'reducers/routeReducer';
-import sessionReducer from 'reducers/sessionReducer';
 
 
 /**
@@ -17,7 +16,6 @@ export default function createReducer(injectedReducers) {
   return combineReducers({
     route: routeReducer,
     language: languageProviderReducer,
-    session: sessionReducer,
     ...injectedReducers,
   });
 }
