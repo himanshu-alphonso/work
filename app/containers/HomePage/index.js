@@ -4,7 +4,9 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import Helmet from 'react-helmet';
 
 import HomePageStyles from './style';
-
+import ListTask from 'components/listtask/';
+import AddTask from 'components/add-task/';
+import Task from 'components/Task/';
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +19,11 @@ class HomePage extends React.Component {
         <Grid>
           <Row>
             <Col>
-              <h1>Alphonso Boilerplate - Home Page Placeholder</h1>
+              <h1>TO-DO App</h1>
+              <div>
+                <AddTask />
+                <ListTask />
+              </div>
             </Col>
           </Row>
         </Grid>
