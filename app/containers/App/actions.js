@@ -7,10 +7,13 @@ export const taskAdd = (task) =>{
 }
 
 export const deleteTask = (task_id) =>{
-	return(
+	console.log("in action");
+	console.log(task_id);
+
+	return({
 		type:'DELETE_TASK',
 		payload : task_id
-	);
+	});
 }
 
 

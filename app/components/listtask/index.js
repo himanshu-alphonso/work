@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { toJS } from 'immutable';
+import Task from 'components/Task/';
 
 class ListTask extends React.Component{
 	constructor(props) {
@@ -10,10 +11,12 @@ class ListTask extends React.Component{
 	render()
 	{
 		//this.props.tasks.forEach((i) => console.log(i));
-		console.log(this.props.tasks.tasks);
+		console.log(this.props.tasks);
+		//{this.props.tasks.tasks.map( (task,index) => <li key={index}>{task}</li>)}
 		return(
 			<ol>
-				{this.props.tasks.tasks.map( (task,index) => <li key={index}>{task}</li>)}
+				{this.props.tasks.tasks.map((task,index) => <Task key = {index} task= {task} id ={index}/> )}
+				
 			</ol>
 		);
 	}

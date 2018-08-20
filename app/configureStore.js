@@ -9,6 +9,7 @@ import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 import { ENV } from 'config';
 import createReducer from './reducers';
+import rootSaga from 'rootSaga';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -63,6 +64,7 @@ export default function configureStore(initialState = {}, history) {
   // Extensions
   store.runSaga = sagaMiddleware.run;
   store.injectedReducers = {}; // Reducer registry
+  sagaMiddleware.run(rootSaga);
   store.injectedSagas = {}; // Saga registry
 
   // Make reducers hot reloadable, see http://mxs.is/googmo

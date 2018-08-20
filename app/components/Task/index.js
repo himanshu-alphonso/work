@@ -5,6 +5,7 @@ import * as actions from '../../containers/App/actions.js';
 
 class Task extends React.Component {
 	render(){
+		//console.log(this.props.id);
 		return (
 			<tr>
 				<td>

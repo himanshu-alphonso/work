@@ -10,7 +10,10 @@ const taskReducer = (state = initialState, action) =>{
 			state = {tasks : state.tasks.concat([action.task])};
 			break;
 		case 'DELETE_TASK':
-			state=state.splice(action.payload,1); 
+			//console.log(action.payload);
+			//state = {tasks :  state.tasks.filter(item => state.tasks.indexOf(item) !== action.payload)};
+			//state = {tasks : state.tasks.splice(action.payload ,1) }; 
+			state = {tasks : state.tasks.slice(0,action.payload).concat(state.tasks.slice(action.payload+1))};
 			break;
 	}
 	return state;
