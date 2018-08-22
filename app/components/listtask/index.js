@@ -1,47 +1,32 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { toJS } from 'immutable';
 import Task from 'components/Task/';
 
-class ListTask extends React.Component{
-	constructor(props) {
-		super(props)
-	}
+class ListTask extends React.Component {
+  constructor(props) {
+  super(props);
+  }
 
-	render()
-	{
-		//this.props.tasks.forEach((i) => console.log(i));
-		console.log(this.props.tasks);
-		//{this.props.tasks.tasks.map( (task,index) => <li key={index}>{task}</li>)}
-		return(
-			<ol>
-				{this.props.tasks.tasks.map((task,index) => <Task key = {index} task= {task} id ={index}/> )}
-				
-			</ol>
-		);
-	}
+  render()
+  {
+  // this.props.tasks.forEach((i) => console.log(i));
+  // {this.props.tasks.tasks.map( (task,index) => <li key={index}>{task}</li>)}
+  return (
+    <ol>
+      {this.props.tasks.data.map((task, index) => <Task key={index} task={task} id={index} />)}
+    </ol>
+  );
+  }
 }
 
-// const mapStateToProps = (state) => {
-// 	try{
-// 		return { tasks:state.tasks }
-// 	}
-// 	catch(e)
-// 	{
-// 		return state;
-// 	}
-	
-// 	//console.log(state);
-// 	return( 
-// 	 	tasks: state.get("tasks"),
-// 	 )
-// };
-
-
+ListTask.propTypes= {
+  tasks: React.PropTypes.object.isRequired,
+};
 const mapStateToProps = (state, ownProps) => ({
-  	tasks: state.get('tasks'),
+  tasks: state.get('tasks'),
 });
 
-//mapStateToProps();
+// mapStateToProps();
 
-export default connect(mapStateToProps)(ListTask)
+export default connect(mapStateToProps)(ListTask);

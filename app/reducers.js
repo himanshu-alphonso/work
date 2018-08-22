@@ -8,6 +8,7 @@ import { combineReducers } from 'redux-immutable';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import routeReducer from 'reducers/routeReducer';
 import taskReducer from 'reducers/taskReducer';
+import homePageReducer from 'containers/HomePage/reducer';
 
 
 /**
@@ -18,6 +19,7 @@ export default function createReducer(injectedReducers) {
     route: routeReducer,
     language: languageProviderReducer,
     tasks: taskReducer,
+    sagaResponce: homePageReducer,
     ...injectedReducers,
   });
 }

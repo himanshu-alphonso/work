@@ -14,7 +14,7 @@ import App from 'containers/App';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
-//import appTask from 'components/add-tasks';
+// import appTask from 'components/add-tasks';
 import ListTask from 'components/listtask/';
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
@@ -35,7 +35,7 @@ import './global-styles';
 const initialState = {};
 const history = createHistory();
 const store = configureStore(initialState, history);
-//console.log(store);
+// console.log(store);
 const MOUNT_NODE = document.getElementById('app');
 const render = (messages) => {
   ReactDOM.render(
